@@ -5,10 +5,8 @@
     export let name;
     export let handler;
 
-    let element;
-
-    function onInput() {
-        handler(element)
+    function onInput(event) {
+        handler(event)
     }
 </script>
 
@@ -17,7 +15,6 @@
         <span class="label-text {classes}">{label}</span>
     </div>
     <input
-        bind:this={element}
         type="text"
         placeholder={placeholder}
         class="input input-bordered w-full text-neutral-content"
