@@ -1,5 +1,5 @@
 <script>
-    import LoginGoogle from "../../components/LoginGoogle.svelte";
+    import Login from "../../components/Google/LoginGoogle.svelte";
     let idp;
     let app;
 </script>
@@ -25,7 +25,7 @@
     {/if}
 
     {#if app === "Jamf Connect Login"}
-        <LoginGoogle />
+        <Login />
     {/if}
 
 </div>
