@@ -1,7 +1,6 @@
 <script>
-  import LoginMinConfig from "./LoginGoogleMinConfig.svelte"
+  import LoginMinConfig from "./LoginGoogleMinConfig.svelte";
   import { configuration } from "../../store.js";
-
 
   let addSettings = false;
   let configGroups = [
@@ -16,7 +15,7 @@
 
   // Handles the change of the selector for additional configurations
   function handleChange(value) {
-
+    
     // Add the selection to the addedConfigs array
     addedConfigs = [...addedConfigs, value];
 
@@ -28,25 +27,24 @@
     addSettings = false;
   }
 
+  let builtConfig;
+
+  async function showPreview() {
+    const response = await fetch("/api/generate-plist?configuration=" + JSON.stringify($configuration))
+    builtConfig = await response.json()
+
+    builtConfig = builtConfig.split("\n")
+
+    document.getElementById("configuration_preview").showModal()
+    
+  }
 </script>
-
-
 
 <LoginMinConfig />
 
-
-
 <!-- Addtitional Authentication Window Setttgs Beyond the Minimum Requirements -->
 {#if addedConfigs.includes("Authentication Window Settings")}
-  <div class="mt-10">
-    <div class="card w-full bg-primary text-primary-content">
-      <div class="card-body">
-        <h2 class="card-title">Authentication Window Settings</h2>
-
-        
-      </div>
-    </div>
-  </div>
+  <!-- TODO: Create Component for Auth Window Settings Card -->
 {/if}
 
 {#if !addSettings}
@@ -72,4 +70,27 @@
   <div>{addedConfig}</div>
 {/each}
 
-<p>{JSON.stringify($configuration)}</p>
+<button class="btn btn-outline btn-accent btn-block mt-10" on:click={showPreview}
+  >Preview Configuration</button
+>
+
+<dialog id="configuration_preview" class="modal">
+  <div class="modal-box w-11/12 max-w-5xl">
+    <h3 class="font-bold text-lg">Configuration Preview</h3>
+    <div class="mockup-code mt-5">
+
+      {#if builtConfig}
+      {#each builtConfig as line}
+        <pre><code>{line}</code></pre>
+      {/each}
+      {/if}
+    </div>
+    <div class="modal-action">
+      <form method="dialog">
+        <!-- if there is a button, it will close the modal -->
+        <button class="btn">Close</button>
+      </form>
+    </div>
+  </div>
+</dialog>
+<!-- <p>{JSON.stringify($configuration)}</p> -->
