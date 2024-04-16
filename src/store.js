@@ -11,7 +11,7 @@ function createConfiguration() {
                 ...configuration
             }
     
-            newConfig[element.name] = element.value
+            newConfig[element.name] = element.value.trim()
     
             return set(newConfig)
         }
