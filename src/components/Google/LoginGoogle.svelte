@@ -36,7 +36,7 @@
     builtConfig = builtConfig.split("\n")
 
     document.getElementById("configuration_preview").showModal()
-    
+
   }
 </script>
 
@@ -70,7 +70,7 @@
   <div>{addedConfig}</div>
 {/each}
 
-<button class="btn btn-outline btn-accent btn-block mt-10" on:click={showPreview}
+<button class="btn btn-outline btn-accent btn-block mt-10" disabled={$configuration.OIDCClientID && $configuration.OIDCClientSecret && $configuration.OIDCRedirectURI ? false : true} on:click={showPreview}
   >Preview Configuration</button
 >
 
@@ -93,4 +93,3 @@
     </div>
   </div>
 </dialog>
-<!-- <p>{JSON.stringify($configuration)}</p> -->
