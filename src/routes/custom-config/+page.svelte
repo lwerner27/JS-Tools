@@ -6,6 +6,7 @@
 	let applicationIdentifier;
 	let payloadUUID = UUIDGenerator();
 	let customPlist;
+	let mobileconfigData;
 
 	// Generates a UUID for the top-level of the profile
 	function GenerateUUID() {
@@ -13,7 +14,7 @@
 	}
 
 	// Checks that all required values are provided and if so sends the request to build the config profile.
-	function buildConfig() {
+	async function buildConfig() {
 		if (
 			!profileName ||
 			!profileUUID ||
@@ -25,7 +26,21 @@
 				'Your Config is invaild. Please enter all required information.'
 			);
 		} else {
-			alert('You provieded a valid config.');
+			const response = await fetch('/api/custom-config', {
+				method: 'POST',
+				body: JSON.stringify({
+					profileName,
+					profileUUID,
+					payloadUUID,
+					applicationIdentifier,
+					customPlist,
+				}),
+			});
+
+			const data = await response.json();
+
+			mobileconfigData = data.mobileconfigContent;
+			console.log(mobileconfigData);
 		}
 	}
 </script>
